@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+      <style>
+        .done-todo span {
+          background: lightgray;
+          text-decoration: line-through;
+          color: gray;
+        }
+        .page {
+          position: relative;
+          /* border: 1px solid red; */
+          max-width: 500px;
+          margin: 0 auto;
+          text-align: center;
+        }
+        span {
+          display: inline-block;
+          font-size: 25px;
+          margin-top: 1px;
+        }
+        .container {
+          text-align: left;
+        }
+        .cell {
+          /* border: 1px solid red; */
+          margin-bottom: 10px;
+        }
+        button {
+          margin-bottom: 5px;
+        }
+        #add-button {
+          position: relative;
+          left: 10px;
+          /* top: 10px; */
+        }
+        /* .input {
+          margin-right: 10px;
+        } */
+      </style>
+    </head>
+  <body>
+    <div class="page">
+      <header>
+        <h1>Todo</h1>
+      </header>
+      <main>
+        <section>
+          <div class="input-group mb-3">
+            <input type="text" class="input form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            <div id="add-button">
+              <button class="add btn btn-primary">Add</button>
+            </div>
+          </div>
+        </section>
+        <section>
+          <div class="container">
+            <!-- <div class="cell">
+              <button type="button" class="done btn btn-success">done</button>
+              <button type="button"  class='delete btn btn-danger'>delete</button>
+              <span class='todo'>${value}</span>
+            </div> -->
+          </div>
+        </section>
+      </main>
+    </div>
+
+  </body>
+  <script>
+    var log = function() {
+        console.log.apply(console, arguments)
+    }
+    var toggleClass = function(element, className) {
+        if (element.classList.contains(className)) {
+            element.classList.remove(className)
+        } else {
+            element.classList.add(className)
+        }
+    }
+    $(".add" ).bind( "click", function() {
+      var value = $(".input")[0].value
+      console.log(value)
+      var container = $('.container')
+      var todo = template(value)
+      container.append(todo)
+    });
+    $(".input" ).keypress(function(event) {
+      if (event.which == 13) {
+        var value = $(".input")[0].value
+        console.log(value)
+        var container = $('.container')
+        var todo = template(value)
+        container.append(todo)
+      }
+    });
+    var template = function (value) {
+      var t =  `
+      <div class="cell">
+        <button type="button" class="done btn btn-success">done</button>
+        <button type="button"  class='delete btn btn-danger'>delete</button>
+        <span class='todo'>${value}</span>
+      </div>
+      `
+      return t
+    }
+    $(".container").bind( "click", function(event) {
+      var target = event.target
+      log(target)
+      if (target.classList.contains("done")) {
+        toggleClass(target.parentElement, 'done-todo')
+      }
+      if (target.classList.contains("delete")) {
+        target.parentElement.remove()
+      }
+    });
+  </script>
+</html>
